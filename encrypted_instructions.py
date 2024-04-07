@@ -1,19 +1,21 @@
-# 111561518
+# 111565121
+
+import string
+
 
 def decrypted_instructions(instructions: str) -> str:
     steps = []
-    digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-    digit = decrypted = ''
+    multiplier = decrypted = ''
     for char in instructions:
         match char:
             case '[':
-                steps.append([decrypted, int(digit)])
-                digit = decrypted = ''
+                steps.append((decrypted, int(multiplier)))
+                multiplier = decrypted = ''
             case ']':
-                previous, number = steps.pop()
-                decrypted = previous + decrypted * number
-            case _ if char in digits:
-                digit += char
+                prev_decrypted, prev_multiplier = steps.pop()
+                decrypted = prev_decrypted + decrypted * prev_multiplier
+            case _ if char in string.digits:
+                multiplier += char
             case _:
                 decrypted += char
     return decrypted
