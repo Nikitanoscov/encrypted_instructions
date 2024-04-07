@@ -1,29 +1,25 @@
-# 111488058
-from typing import Union
+# 111526356
 
-
-def decrypted_instructions(instructions: str):
-    steps: list[Union[int, str]] = []
-    digit = 0
-    decrypted_str = ''
-    for elem in instructions:
-        if elem.isdigit():
-            digit = digit * 10 + int(elem)
-        elif elem == '[':
-            steps.append(decrypted_str)
-            steps.append(digit)
-            digit = 0
-            decrypted_str = ''
-        elif elem == ']':
-            number = steps.pop()
-            previous_string = steps.pop()
-            decrypted_str = previous_string + (decrypted_str * number)
-        else:
-            decrypted_str += elem
-    return decrypted_str
+def decrypted_instructions(instructions: str) -> str:
+    steps = []
+    digit = ''
+    decrypted = ''
+    for char in instructions:
+        match char:
+            case '[':
+                steps.extend([decrypted, int(digit)])
+                digit = ''
+                decrypted = ''
+            case ']':
+                number = steps.pop()
+                previous = steps.pop()
+                decrypted = previous + decrypted * number
+            case varieble if char in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+                digit += varieble
+            case _:
+                decrypted += char
+    return decrypted
 
 
 if __name__ == '__main__':
-    encrypted_intrusion = input()
-    print(decrypted_instructions(encrypted_intrusion))
-
+    print(decrypted_instructions(input()))
